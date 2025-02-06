@@ -1,0 +1,58 @@
+# I. Image editor
+
+1. Comanda LOAD:
+- Eliberam orice imagine din memorie pentru a preveni memory leak-urile.
+- Citim mai intai formatul, iar apoi in functie de format, daca este de tip RGB
+alocam o imagine RGB, daca este Grayscale alocam o imagine Grayscale.
+- Citim width-ul si height-ul imaginii.
+- Citim valoarea maxima daca are, daca nu are ii atribuim noi.
+- Citim si un enter, pentru a putea incarca pixelii corect.
+
+2. Comanda SELECT:
+- Verificam daca selecteaza toata imaginea sau doar o sectiune.
+- Daca selectia e all, atunci nu mai apelam functia de selectare, si atribuim
+noi manual limitele.
+- Daca se apeleaza functia de selectare, mai intai ne asiguram ca
+x1 < x2 si y1 < y2, apoi verificam daca coordonatele sunt in regula.
+- Daca totul este ok, punem in structura datele.
+
+3. Comanda SAVE:
+- Citim toata linia, verificam daca are si parametrul ascii.
+- Daca se salveaza ca ascii, verificam daca formatul este pentru imaginile
+ascii, altfel le schimbam (de ex din P4 in P1).
+- Daca nu se salveaza ca ascii, verificam daca formatul este pentru imaginile
+binare, altfel le schimbam (de ex din P1 in P4).
+- Daca e ascii, folosim fprintf, daca nu e ascii, folosim fwrite.
+
+4. Comanda CROP:
+- Daca este o selectie invalida, afisam mesajul si dam return.
+- Alocam o matrice auxiliara, in care copiem elementele din matricea initiala
+care sunt in zona de selectie.
+- Dupa ce am umplut matricea auxiliara, realocam matricea initiala,
+umplem matricea initiala si eliberam matricea auxiliara.
+
+5. Comanda EQUALIZE:
+- Calculam histograma, valoarea minima si valoarea maxima care apare.
+- Calculam noua valoare pentru fiecare pixel intr-un vector utilizand
+formula din problema.
+- Inlocuim fiecare pixel din imaginea initiala.
+
+6. Comanda ROTATE:
+- Verificam daca selectia este patrata si daca unghiul e suportat.
+- Daca unghiul de rotatie e 0 afisam mesajul si dam return.
+- Alocam o matrice auxiliara pentru a stoca pixelii rotiti.
+- Cu ajutorul functiei rotate_pixels calculam coordonatele noi pentru
+fiecare pixel.
+- Totodata, daca unghiul de rotatie e +-90 sau +-270, asta inseamna
+ca width-ul si height-ul se vor schimba. In acest caz, realocam
+matricea initiala, inlocuim width-ul si height-ul, fiindca se vor modifica.
+
+7. Comanda EXIT:
+- Eliberam totul din memorie si iesim din program.
+
+8. Orice alta comanda:
+- Afisam mesajul corespunzator si citim toata linia.
+
+
+Pentru fiecare comanda citita verificam daca exista imagine
+incarcata in memorie (pentru comenzile care necesita asta).
